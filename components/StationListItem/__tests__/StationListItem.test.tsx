@@ -1,18 +1,15 @@
-import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { StationListItem } from '../index';
 import { BikeStation } from '../../../types/bikeStation';
 import { AccessibilityInfo, Alert } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 
-
 jest.mock('expo-clipboard', () => ({
     setStringAsync: jest.fn(),
     getStringAsync: jest.fn(),
-  }));
+}));
 jest.spyOn(Alert, 'alert');
 jest.spyOn(AccessibilityInfo, 'announceForAccessibility');
-
 
 describe('StationListItem', () => {
   const mockStation: BikeStation = {
@@ -22,16 +19,26 @@ describe('StationListItem', () => {
     bikes_in_use: 6,
   };
 
+  beforeAll(() => {
+    jest.clearAllMocks();
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+  }); 
+  
+  afterAll(() => {
+    (console.error as jest.Mock).mockRestore();
+  });
+
   beforeEach(() => {
+    jest.clearAllMocks();
     render(<StationListItem bikeStation={mockStation} />);
-  })
+  });
 
   it('renders the bike station name', () => {
     expect(screen.getByText('Station 1')).toBeTruthy();
   });
 
   it('displays the number of available bikes', () => {
-    expect(screen.getByText(' Available Bikes: 22')).toBeTruthy();
+    expect(screen.getByText('Available Bikes: 22')).toBeTruthy();
   });
 
   it('displays total capacity of the bike station', () => {
@@ -58,11 +65,10 @@ describe('StationListItem', () => {
   });
 
   it('has correct accessibility attributes', () => {
-    const expectedAccessibilityLabel =`Bike station: ${mockStation.name}. Available bikes: ${mockStation.bikes_available}. Total capacity: ${mockStation.bikes_available + mockStation.bikes_in_use}.`
+    const expectedAccessibilityLabel = `Bike station: ${mockStation.name}. Available bikes: ${mockStation.bikes_available}. Total capacity: ${mockStation.bikes_available + mockStation.bikes_in_use}.`;
 
     expect(screen.getByLabelText(expectedAccessibilityLabel)).toBeTruthy();
     expect(screen.getByHintText('Long press to copy station name to clipboard')).toBeTruthy();
     expect(screen.getByRole('button')).toBeTruthy();
   });
-
 });

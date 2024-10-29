@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { ParkingData } from '../types/parkingData';
+import isEqual from 'lodash/isEqual';
 
 const PARKING_URL = 'https://data.stad.gent/api/explore/v2.1/catalog/datasets/bezetting-parkeergarages-real-time/records?limit=20';
 
@@ -28,7 +29,8 @@ export const useFetchParkings = () => {
           location: parking.location,
         }));
 
-      setParkings((prev) => JSON.stringify(prev) === JSON.stringify(filteredParkings) ? prev : filteredParkings);
+      setParkings((prev) => isEqual(prev, filteredParkings) ? prev : filteredParkings);
+      if (error) setError(null);
     } catch (err) {
       console.error("Error fetching parking data:", err);
       setError("Failed to load data.");

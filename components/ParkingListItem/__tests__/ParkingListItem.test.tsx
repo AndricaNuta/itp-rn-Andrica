@@ -23,13 +23,16 @@ describe('ParkingListItem', () => {
     render(<ParkingListItem parking={mockParking} />);
   })
 
-  it('renders the parking information correctly', () => {
-    expect(screen.getByText('Parking Lot')).toBeTruthy();
-    expect(screen.getByText('Somewhere over the rainbow')).toBeTruthy();
-    expect(screen.getByText('Capacity: 100')).toBeTruthy();
-    expect(screen.getByText('Available: 30')).toBeTruthy();
-    expect(screen.getByText('Occupation: 70%')).toBeTruthy();
-  });
+    it('renders the parking information correctly', () => {
+      expect(screen.getByText('Parking Lot')).toBeTruthy();
+      expect(screen.getByText('Somewhere over the rainbow')).toBeTruthy();
+      expect(screen.getByText('Capacity:')).toBeTruthy();
+      expect(screen.getByText('100')).toBeTruthy();
+      expect(screen.getByText('Available:')).toBeTruthy();
+      expect(screen.getByText('30')).toBeTruthy();
+      expect(screen.getByText('Occupation:')).toBeTruthy();
+      expect(screen.getByText('70%')).toBeTruthy();
+    });    
 
   it('calls openInGoogleMaps with the correct coordinates when pressed', () => {
     const pressableElement = screen.getByRole('button');

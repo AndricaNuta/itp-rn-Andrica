@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, Pressable, Animated } from 'react-native';
 import { openInGoogleMaps } from '../../services/openInGoogleMaps';
 import { styles } from './styles';
 import { ParkingListItemProps } from './types';
@@ -13,11 +13,22 @@ export const ParkingListItem: React.FC<ParkingListItemProps> = React.memo(({ par
       accessibilityRole="button"
     >
       <View style={styles.card}>
-        <Text style={styles.title}> {parking.name} </Text>
-        <Text style={styles.description}> {parking.description} </Text>
-        <Text> Capacity: {parking.totalcapacity} </Text>
-        <Text> Available: {parking.availablecapacity} </Text>
-        <Text> Occupation: {parking.occupation}% </Text>
+        <View style={styles.header}>
+          <Text style={styles.title}> {parking.name} </Text>
+          <Text style={styles.description}> {parking.description} </Text>
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.label}>Capacity:</Text>
+          <Text style={styles.value}> {parking.totalcapacity} </Text>
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.label}>Available:</Text>
+          <Text style={styles.value}> {parking.availablecapacity}  </Text>
+        </View>
+        <View style={styles.infoRow}>
+          <Text style={styles.label}>Occupation:</Text>
+          <Text style={styles.value}> {parking.occupation}% </Text>
+        </View>
       </View>
     </Pressable>
   );

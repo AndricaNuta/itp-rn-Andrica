@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, Text, ActivityIndicator, SafeAreaView, Pressable, View, RefreshControl } from 'react-native';
 import { ParkingListItem } from '../../components/ParkingListItem';
 import { useFetchParkings } from '../../hooks/useFetchParkings';
@@ -7,6 +7,7 @@ import { styles } from './styles';
 
 export const ParkingsScreen: React.FC = () => {
     const { parkings, loading, error, refreshing, onRefresh } = useFetchParkings();
+
       return (
         <SafeAreaView style={styles.container}>
           {loading && 
@@ -42,6 +43,7 @@ export const ParkingsScreen: React.FC = () => {
               No stations available
             </Text>
           )}
+           {!loading && !error &&  (
           <FlatList
             data={parkings}
             keyExtractor={(item) => item.id}
@@ -58,6 +60,9 @@ export const ParkingsScreen: React.FC = () => {
               />
             }
           />
+          )}
         </SafeAreaView>
       );
     };
+
+

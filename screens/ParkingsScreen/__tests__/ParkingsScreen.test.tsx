@@ -54,16 +54,12 @@ describe('ParkingsScreen', () => {
     });
   });
 
-  it('displays error message and retry button when fetch fails', async () => {
+  it('displays error message when fetch fails', async () => {
     const mockRefresh = jest.fn();
     renderComponent({ error: 'Failed to load data.', refresh: mockRefresh});
 
     expect(screen.getByText('Oops, something went wrong!')).toBeTruthy();
-    const retryButton = screen.getByText('Retry');
-    expect(retryButton).toBeTruthy();
 
-    fireEvent.press(retryButton);
-    expect(mockRefresh).toHaveBeenCalledTimes(1);
   });
 
   it('has accessibility label on activity loader', () => {

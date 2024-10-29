@@ -1,14 +1,20 @@
-import { Alert, Linking } from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
 
 export const openInGoogleMaps = (latitude: number, longitude: number) => {
-  const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+  const iosURL = `comgooglemaps://?q=${latitude},${longitude}`;
+  const androidURL = `geo:${latitude},${longitude}?q=${latitude},${longitude}`;
+  const googleMapsURL = Platform.OS === 'ios' ? iosURL : androidURL;  
+  const browserURL = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
 
-  Linking.canOpenURL(url)
+  Linking.canOpenURL(googleMapsURL)
     .then((supported) => {
       if (supported) {
-        Linking.openURL(url);
+        Linking.openURL(googleMapsURL);
       } else {
-        Alert.alert("Error", "Unable to open Google Maps");
+        // Fall back to browser if Google Maps is not installed
+        Linking.openURL(browserURL).catch(() =>
+          Alert.alert("Error", "Unable to open Google Maps in the browser.")
+        );
       }
     })
     .catch((err) => console.error("An error occurred", err));

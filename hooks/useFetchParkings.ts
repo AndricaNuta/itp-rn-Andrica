@@ -6,12 +6,13 @@ export const useFetchParkings = () => {
   const [parkings, setParkings] = useState<ParkingData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const url = 'https://data.stad.gent/api/explore/v2.1/catalog/datasets/bezetting-parkeergarages-real-time/records?limit=20';
 
-  const fetchParkingData = useCallback(async () => {
-    if (!loading) setLoading(false);
+  const fetchParkingData = useCallback(async(isInitialLoad = false) => {
+    if (isInitialLoad) setLoading(true);
 
     try {
-      const url = 'https://data.stad.gent/api/explore/v2.1/catalog/datasets/bezetting-parkeergarages-real-time/records?limit=20';
       const response = await axios.get(url);
 
       const filteredParkings = response.data.results
@@ -30,21 +31,25 @@ export const useFetchParkings = () => {
       setParkings((prevParkings) =>
         JSON.stringify(prevParkings) === JSON.stringify(filteredParkings) ? prevParkings : filteredParkings
       );
+      setError(null); // Clear error on success
     } catch (err) {
       console.error("Error fetching parking data:", err);
-      if (!error) setError("Failed to load data.");
+      setError("Failed to load data.");
     } finally {
-      if (loading) setLoading(false);
+      setLoading(false);
+      setRefreshing(false);
     }
-  }, []); 
+  }, [url, refreshing]); 
 
-  const refresh = useCallback(() => {
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
     fetchParkingData();
-  }, []); 
+  }, [fetchParkingData]); 
+
 
   useEffect(() => {
     fetchParkingData();
   }, []); 
 
-  return { parkings, loading, error, refresh };
-};
+  return { parkings, loading, error, refreshing, onRefresh };
+};  

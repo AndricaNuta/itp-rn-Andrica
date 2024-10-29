@@ -1,11 +1,13 @@
 import { act, renderHook, waitFor } from '@testing-library/react-native';
 import axios from 'axios';
-import { useFetchStations, urls } from '../useFetchBikeStations';
+import { useFetchStations } from '../useFetchBikeStations';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('useFetchStations', () => {
+  const urls = ['url1', 'url2', 'url3'];
+
   beforeAll(() => {
     jest.clearAllMocks();
     jest.spyOn(console, 'error').mockImplementation(() => {});

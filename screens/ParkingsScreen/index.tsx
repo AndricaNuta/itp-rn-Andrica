@@ -1,12 +1,12 @@
 import React from 'react';
-import { FlatList, Text, ActivityIndicator, SafeAreaView, Pressable, View } from 'react-native';
+import { FlatList, Text, ActivityIndicator, SafeAreaView, Pressable, View, RefreshControl } from 'react-native';
 import { ParkingListItem } from '../../components/ParkingListItem';
 import { useFetchParkings } from '../../hooks/useFetchParkings';
 import { ParkingData } from '../../types/parkingData';
 import { styles } from './styles';
 
 export const ParkingsScreen: React.FC = () => {
-    const { parkings, loading, error, refresh } = useFetchParkings();
+    const { parkings, loading, error, refreshing, onRefresh } = useFetchParkings();
       return (
         <SafeAreaView style={styles.container}>
           {loading && 
@@ -27,7 +27,7 @@ export const ParkingsScreen: React.FC = () => {
             >
               Oops, something went wrong!
             </Text>
-            <Pressable style={styles.retryButton} onPress={refresh}>
+            <Pressable style={styles.retryButton} onPress={onRefresh}>
               <Text>
                 Retry 
               </Text>
@@ -50,10 +50,14 @@ export const ParkingsScreen: React.FC = () => {
               <ParkingListItem
                   parking={item}
               />
-          )}
+            )}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
           />
         </SafeAreaView>
       );
     };
-
-

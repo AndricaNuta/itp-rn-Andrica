@@ -44,7 +44,7 @@ Implemented **React Navigation** with a **Bottom Tab Navigator** for intuitive s
 
 ### **Bikes Screen Implementation**
 - **FlatList** for efficient rendering of bike station data and scalability.
-- **Station Cards**: Each flat list item displays station name, available bikes, and capacity.
+- **Station Cards**: Each flat list item displays station info and is wrapped in **useMemo** ensuring that the component is only recreated when necessary. This optimization reduces re-renders of list items, especially beneficial as the list scales.
 - **Long Press to Copy Station Name**: Using Expo’s Clipboard API, I added a long-press gesture to copy station names.
 - **Real-Time Data Fetching**: 
    To keep the **Bikes** screen’s data up-to-date, I implemented a real-time fetching mechanism within the custom useFetchStations hook:
@@ -66,7 +66,7 @@ Implemented **React Navigation** with a **Bottom Tab Navigator** for intuitive s
 
 ### **Third-Party Libraries**
 - **Axios**: Simplified API requests and error handling.
-- **React Navigation**: Created a bottom tab navigator for intuitive switching between screens.
+- **Lodash**: Used lodash functions like isEqual for array comparison, instead of JSON.stringify for a more efficient comparison & avoiding unecessary rerenders.
 - **Expo Clipboard API**: Enabled “copy station name” on long-press without extra native code.
 
 ## **Installation and Setup**

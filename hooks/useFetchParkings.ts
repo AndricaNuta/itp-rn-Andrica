@@ -28,8 +28,9 @@ export const useFetchParkings = () => {
           description: parking.description,
           location: parking.location,
         }));
-
-      setParkings((prev) => isEqual(prev, filteredParkings) ? prev : filteredParkings);
+        setParkings((prev) =>
+        isEqual(prev, filteredParkings) ? prev : filteredParkings
+      );
       if (error) setError(null);
     } catch (err) {
       console.error("Error fetching parking data:", err);

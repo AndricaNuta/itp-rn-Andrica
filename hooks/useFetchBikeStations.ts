@@ -15,9 +15,8 @@ export const useFetchStations = () => {
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchStations = useCallback(async (isRefreshing = false) => {
-    setLoading(isRefreshing ? loading : true);
-    setRefreshing(isRefreshing);
+  const fetchStations = useCallback(async (isInitialLoad = false) => {
+    if (isInitialLoad) setLoading(true);
 
     try {
       const responses = await Promise.all(
@@ -46,26 +45,32 @@ export const useFetchStations = () => {
             bikes_available: station.bikes_available,
             bikes_in_use: station.bikes_in_use,
           }));
-          setStations((prev) => isEqual(prev, combinedData) ? prev : combinedData);
-          if (error) setError(null);
-        }
-    } catch (err) {
-      console.error("Error fetching bike stations data:", err);
-      setError("Failed to load data.");
+
+        setStations((prevStations) =>
+          isEqual(prevStations, combinedData) ? prevStations : combinedData
+        );
+        if (error) setError(null);
+      }
+    }catch{
+
+    setError("Failed to load data.")
     } finally {
-      setLoading(false);
-      setRefreshing(false);
+      if (isInitialLoad) {
+        setLoading(false);
+      } else {
+        setRefreshing(false);
+      }
     }
   }, []);
 
   useEffect(() => {
-    fetchStations(true);
-    const interval = setInterval(() => fetchStations(false), 5000);
+    fetchStations(true); 
+    const interval = setInterval(() => fetchStations(false), 5000); 
     return () => clearInterval(interval);
   }, [fetchStations]);
 
   const onRefresh = useCallback(() => {
-    fetchStations(true);
+    fetchStations(false); 
   }, [fetchStations]);
 
   return { stations, loading, error, refreshing, onRefresh };

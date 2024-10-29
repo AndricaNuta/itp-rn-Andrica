@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { render, screen, waitFor } from '@testing-library/react-native';
 import { ParkingsScreen } from '../index';
 import { useFetchParkings } from '../../../hooks/useFetchParkings';
 
@@ -59,7 +59,6 @@ describe('ParkingsScreen', () => {
     renderComponent({ error: 'Failed to load data.', refresh: mockRefresh});
 
     expect(screen.getByText('Oops, something went wrong!')).toBeTruthy();
-
   });
 
   it('has accessibility label on activity loader', () => {

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, Pressable, Animated } from 'react-native';
+import React from 'react';
+import { View, Text, Pressable } from 'react-native';
 import { openInGoogleMaps } from '../../services/openInGoogleMaps';
 import { styles } from './styles';
 import { ParkingListItemProps } from './types';

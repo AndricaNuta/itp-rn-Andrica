@@ -80,7 +80,7 @@ Implemented **React Navigation** with a **Bottom Tab Navigator** for intuitive s
    npm install
 3. **Run the app**:
    ```bash
-  npx expo start
+   npx expo start
 4. **Run tests**:
    ```bash
    npm run test

@@ -1,8 +1,7 @@
 # **React Native Case - Bikes & Cars Parking Availability App**
 
 ## **Introduction**
-Hi there! This is my take on the case for the React Native Developer role at In The Pocket. I tried to follow the instructions sent over email precisely, focusing on the core functionality. It was fun building it and had some things to learn.
-I hope it gives you a good sense of my coding style and maybe you'll help improve it :) 
+Hello! This app demonstrates my approach to building a React Native application with a focus on real-time data management, efficient UI rendering, and state management. It includes key technical aspects of mobile app development, with attention to modularity, performance, and accessibility. I enjoyed working on this project and believe it reflects my coding style and problem-solving abilities.
 
 ## **Project Structure**
 The project is organized into distinct folders to enhance readability and modularity:
